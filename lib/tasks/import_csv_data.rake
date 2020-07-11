@@ -1,6 +1,6 @@
 require 'smarter_csv'
 require 'benchmark'
-require 'pry'
+require './app/models/poros/integer_converter'
 
 namespace :import_csv_data do
   desc 'import data from CSV files'
@@ -21,8 +21,8 @@ namespace :import_csv_data do
 
     file_objects.each do |file, object|
       total_time = Benchmark.realtime do
-        SmarterCSV.process(file, headers: true) do |row|
-          # binding.pry
+        options = {value_converters: {unit_price: IntegerConverter}, headers: true}
+        SmarterCSV.process(file, options) do |row|
           object.create!(row)
         end
       end
