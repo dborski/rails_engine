@@ -42,6 +42,7 @@ gem 'figaro'
 gem 'smarter_csv'
 gem 'fast_jsonapi'
 gem 'rubocop-rails', require: false
+gem 'rack-cors'
 
 
 
