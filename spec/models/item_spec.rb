@@ -7,7 +7,12 @@ RSpec.describe Item, type: :model do
     it {should validate_presence_of :unit_price }
   end
 
-  describe "relationships" do
+  describe "merchant_items relationship" do
     it {should belong_to :merchant}
+  end
+
+  describe 'invoice_items relationship' do
+    it { should have_many :invoice_items }
+    it { should have_many(:invoices).through(:invoice_items)}
   end
 end
