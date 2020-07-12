@@ -26,12 +26,10 @@ describe 'Merchants API' do
   it 'can create a new merchant' do
     merchant_params = { name: 'Merchant 1' }
 
-    post '/api/v1/merchants', params: { merchant: merchant_params }
+    post api_v1_merchants_path, params: { merchant: merchant_params }
     merchant = Merchant.last
-
-    binding.pry
-
+     
     expect(response).to be_successful
-    expect(merchant.name).to eq(item[parms[:name]] )
+    expect(merchant.name).to eq(merchant_params[:name] )
   end
 end
