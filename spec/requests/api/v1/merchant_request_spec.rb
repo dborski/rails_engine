@@ -1,9 +1,14 @@
 require 'rails_helper'
 
 describe 'Merchants API' do
-  it 'sends a list of merchants' do
+  before(:each) do
     create_list(:merchant, 5)
 
+    @merchant1 = Merchant.first
+    @merchant2 = Merchant.last
+  end
+
+  it 'sends a list of merchants' do
     get api_v1_merchants_path
 
     expect(response).to be_successful
@@ -14,15 +19,13 @@ describe 'Merchants API' do
   end
 
   it 'sends one merchant' do
-    id = create(:merchant).id
-
-    get api_v1_merchant_path(id)
+    get api_v1_merchant_path(@merchant1)
 
     expect(response).to be_successful
 
     merchant = JSON.parse(response.body)
 
-    expect(merchant['data']['attributes']['id']).to eq(id)
+    expect(merchant['data']['attributes']['id']).to eq(@merchant1.id)
   end
 
   it 'can create a new merchant' do
@@ -36,12 +39,11 @@ describe 'Merchants API' do
   end
 
   it 'can update an existing merchant' do
-    id = create(:merchant).id
-    previous_name = Merchant.last.name
+    previous_name = @merchant2.name
     merchant_params = { name: 'New Merchant' }
 
-    patch api_v1_merchant_path(id), params: merchant_params
-    merchant = Merchant.find_by(id: id)
+    patch api_v1_merchant_path(@merchant2), params: merchant_params
+    merchant = Merchant.find_by(id: @merchant2.id)
 
     expect(response).to be_successful
     expect(merchant.name).to_not eq(previous_name)
@@ -49,12 +51,9 @@ describe 'Merchants API' do
   end
 
   it 'can delete an existing merchant' do
-    merchant = create(:merchant)
-
-    delete api_v1_merchant_path(merchant)
+    delete api_v1_merchant_path(@merchant2)
 
     expect(response).to be_successful
-    expect(Merchant.count).to eq(0)
-    expect { Merchant.find(merchant.id) }.to raise_error(ActiveRecord::RecordNotFound)
+    expect(Merchant.count).to eq(4)
   end
 end
