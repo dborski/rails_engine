@@ -36,7 +36,7 @@ describe 'Items API' do
              unit_price: 30.0,
              merchant_id: merchant.id }
 
-    post api_v1_items_path, params: body 
+    post api_v1_items_path, params: body
     item = Item.last
 
     expect(response).to be_successful
