@@ -21,6 +21,17 @@ describe 'Merchants API' do
 
     merchant = JSON.parse(response.body)
 
-    expect(merchant['data']['id']).to eq(id)
+    expect(merchant['data']['attributes']['id']).to eq(id)
+  end
+  it 'can create a new merchant' do
+    merchant_params = { name: 'Merchant 1' }
+
+    post '/api/v1/merchants', params: { merchant: merchant_params }
+    merchant = Merchant.last
+
+    binding.pry
+
+    expect(response).to be_successful
+    expect(merchant.name).to eq(item[parms[:name]] )
   end
 end
