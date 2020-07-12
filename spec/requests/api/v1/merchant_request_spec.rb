@@ -37,11 +37,20 @@ describe 'Merchants API' do
     previous_name = Merchant.last.name
     merchant_params = { name: 'New Merchant' }
 
-    put api_v1_merchant_path(id), params: { merchant: merchant_params }
+    patch api_v1_merchant_path(id), params: { merchant: merchant_params }
     merchant = Merchant.find_by(id: id)
      
     expect(response).to be_successful
     expect(merchant.name).to_not eq(previous_name )
     expect(merchant.name).to eq(merchant_params[:name] )
+  end
+  it 'can delete an existing merchant' do
+    merchant = create(:merchant)
+
+    delete api_v1_merchant_path(merchant)
+
+    expect(response).to be_successful
+    expect(Merchant.count).to eq(0)
+    expect{Merchant.find(merchant.id)}.to raise_error(ActiveRecord::RecordNotFound)
   end
 end
