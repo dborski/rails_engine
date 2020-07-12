@@ -6,6 +6,11 @@ describe 'Merchants API' do
 
     @merchant1 = Merchant.first
     @merchant2 = Merchant.last
+
+    @item1 = create(:item, merchant: @merchant1)
+    @item2 = create(:item, merchant: @merchant1)
+    @item3 = create(:item, merchant: @merchant1)
+    @item4 = create(:item, merchant: @merchant2)
   end
 
   it 'sends a list of merchants' do
@@ -55,5 +60,21 @@ describe 'Merchants API' do
 
     expect(response).to be_successful
     expect(Merchant.count).to eq(4)
+  end
+
+  it 'can get all items for a merchant' do
+    get "/api/v1/merchants/#{@merchant1.id}/items"
+
+    merchant_items = JSON.parse(response.body)
+
+    first_item = merchant_items['data'].first
+
+    expect(response).to be_successful
+    expect(merchant_items['data'].count).to eq(3)
+    expect(first_item['attributes']['id']).to eq(@item1.id)
+    expect(first_item['attributes']['name']).to eq(@item1.name)
+    expect(first_item['attributes']['description']).to eq(@item1.description)
+    expect(first_item['attributes']['unit_price']).to eq(@item1.unit_price)
+    expect(first_item['attributes']['merchant_id']).to eq(@item1.merchant_id)
   end
 end
