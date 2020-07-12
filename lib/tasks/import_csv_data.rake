@@ -21,7 +21,7 @@ namespace :import_csv_data do
 
     file_objects.each do |file, object|
       total_time = Benchmark.realtime do
-        options = {value_converters: {unit_price: IntegerConverter}, headers: true}
+        options = { value_converters: { unit_price: IntegerConverter }, headers: true }
         SmarterCSV.process(file, options) do |row|
           object.create!(row)
         end
