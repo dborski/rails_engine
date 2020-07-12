@@ -28,7 +28,7 @@ describe 'Merchants API' do
   it 'can create a new merchant' do
     merchant_params = { name: 'Merchant 1' }
 
-    post api_v1_merchants_path, params: { merchant: merchant_params }
+    post api_v1_merchants_path, params: merchant_params
     merchant = Merchant.last
 
     expect(response).to be_successful
@@ -40,7 +40,7 @@ describe 'Merchants API' do
     previous_name = Merchant.last.name
     merchant_params = { name: 'New Merchant' }
 
-    patch api_v1_merchant_path(id), params: { merchant: merchant_params }
+    patch api_v1_merchant_path(id), params: merchant_params
     merchant = Merchant.find_by(id: id)
 
     expect(response).to be_successful

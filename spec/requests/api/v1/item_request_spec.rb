@@ -31,19 +31,19 @@ describe 'Items API' do
   it 'can create a new item' do
     merchant = create(:merchant)
 
-    item_params = { name: 'Item 1',
-                    description: 'Description 1',
-                    unit_price: 30.0,
-                    merchant_id: merchant.id }
+    body = { name: 'Item 1',
+             description: 'Description 1',
+             unit_price: 30.0,
+             merchant_id: merchant.id }
 
-    post api_v1_items_path, params: { item: item_params }
+    post api_v1_items_path, params: body 
     item = Item.last
 
     expect(response).to be_successful
-    expect(item.name).to eq(item_params[:name])
-    expect(item.description).to eq(item_params[:description])
-    expect(item.unit_price).to eq(item_params[:unit_price])
-    expect(item.merchant_id).to eq(item_params[:merchant_id])
+    expect(item.name).to eq(body[:name])
+    expect(item.description).to eq(body[:description])
+    expect(item.unit_price).to eq(body[:unit_price])
+    expect(item.merchant_id).to eq(body[:merchant_id])
   end
 
   it 'can update an existing item' do
@@ -52,7 +52,7 @@ describe 'Items API' do
     item_params = { name: 'New Item Name',
                     description: 'New Description' }
 
-    patch api_v1_item_path(id), params: { item: item_params }
+    patch api_v1_item_path(id), params: item_params
     item = Item.find_by(id: id)
 
     expect(response).to be_successful
