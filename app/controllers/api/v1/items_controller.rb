@@ -1,4 +1,6 @@
-class Api::V1::ItemsController < ApplicationController
+class Api::V1::ItemsController < ActionController::API
+  # protect_from_forgery prepend: true
+
   def index
     render json: ItemSerializer.new(Item.all)
   end
@@ -25,6 +27,6 @@ class Api::V1::ItemsController < ApplicationController
   private
 
   def item_params
-    params.require(:item).permit(:name, :description, :unit_price, :merchant_id)
+    params.permit(:name, :description, :unit_price, :merchant_id)
   end
 end
