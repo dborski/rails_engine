@@ -12,6 +12,7 @@ describe 'Merchants API' do
 
     expect(merchants['data'].count).to eq(5)
   end
+
   it 'sends one merchant' do
     id = create(:merchant).id
 
@@ -23,15 +24,17 @@ describe 'Merchants API' do
 
     expect(merchant['data']['attributes']['id']).to eq(id)
   end
+
   it 'can create a new merchant' do
     merchant_params = { name: 'Merchant 1' }
 
     post api_v1_merchants_path, params: { merchant: merchant_params }
     merchant = Merchant.last
-     
+
     expect(response).to be_successful
-    expect(merchant.name).to eq(merchant_params[:name] )
+    expect(merchant.name).to eq(merchant_params[:name])
   end
+
   it 'can update an existing merchant' do
     id = create(:merchant).id
     previous_name = Merchant.last.name
@@ -39,11 +42,12 @@ describe 'Merchants API' do
 
     patch api_v1_merchant_path(id), params: { merchant: merchant_params }
     merchant = Merchant.find_by(id: id)
-     
+
     expect(response).to be_successful
-    expect(merchant.name).to_not eq(previous_name )
-    expect(merchant.name).to eq(merchant_params[:name] )
+    expect(merchant.name).to_not eq(previous_name)
+    expect(merchant.name).to eq(merchant_params[:name])
   end
+
   it 'can delete an existing merchant' do
     merchant = create(:merchant)
 
@@ -51,6 +55,6 @@ describe 'Merchants API' do
 
     expect(response).to be_successful
     expect(Merchant.count).to eq(0)
-    expect{Merchant.find(merchant.id)}.to raise_error(ActiveRecord::RecordNotFound)
+    expect { Merchant.find(merchant.id) }.to raise_error(ActiveRecord::RecordNotFound)
   end
 end
