@@ -4,6 +4,6 @@ class IntegerConverter
     index = length - 2
 
     to_string = value.to_s
-    to_string.insert(index, ".").to_f
+    to_string.insert(index, '.').to_f
   end
 end
