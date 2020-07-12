@@ -1,6 +1,4 @@
 class Api::V1::ItemsController < ActionController::API
-  # protect_from_forgery prepend: true
-
   def index
     render json: ItemSerializer.new(Item.all)
   end
