@@ -13,3 +13,9 @@ Style/FrozenStringLiteralComment:
 
 Documentation:
   Enabled: false
+
+Metrics/BlockLength:
+  Max: 100
+
+Style/ClassAndModuleChildren:
+  Enabled: false
