@@ -10,8 +10,7 @@ describe 'Item API Search' do
   end
 
   it 'can find an item that has a fragment in name' do
-
-    get "/api/v1/items/find?name=cyc"
+    get '/api/v1/items/find?name=cyc'
 
     item = JSON.parse(response.body)
 
@@ -23,7 +22,7 @@ describe 'Item API Search' do
   end
 
   it 'can find an item that has a fragment in unit_price' do
-    get "/api/v1/items/find?unit_price=99"
+    get '/api/v1/items/find?unit_price=99'
 
     item = JSON.parse(response.body)
 
@@ -35,7 +34,7 @@ describe 'Item API Search' do
   end
 
   it 'can find an item that has a fragment in unit_price' do
-    get "/api/v1/items/find?unit_price=99"
+    get '/api/v1/items/find?unit_price=99'
 
     item = JSON.parse(response.body)
 
@@ -57,12 +56,12 @@ describe 'Item API Search' do
     expect(item['data']['attributes']['unit_price']).to eq(@item1.unit_price)
     expect(item['data']['attributes']['merchant_id']).to eq(@item1.merchant_id)
   end
-  
+
   it 'can find an item that has a fragment all attributes' do
     get "/api/v1/items/find?name=jea&description=blue&unit_price=32&merchant_id=#{@merchant1.id}&created_at=dec&updated_at=18"
-    
+
     item = JSON.parse(response.body)
-    
+
     expect(item['data']['attributes']['id']).to eq(@item3.id)
     expect(item['data']['attributes']['name']).to eq(@item3.name)
     expect(item['data']['attributes']['description']).to eq(@item3.description)
@@ -71,7 +70,7 @@ describe 'Item API Search' do
   end
 
   it 'can find multiple items that have a fragment in name' do
-    get "/api/v1/items/find_all?name=station"
+    get '/api/v1/items/find_all?name=station'
 
     items = JSON.parse(response.body)
 
@@ -84,7 +83,7 @@ describe 'Item API Search' do
   end
 
   it 'can find multiple items that have a fragment in description and unit_price' do
-    get "/api/v1/items/find_all?description=stat&unit_price=99"
+    get '/api/v1/items/find_all?description=stat&unit_price=99'
 
     items = JSON.parse(response.body)
 
