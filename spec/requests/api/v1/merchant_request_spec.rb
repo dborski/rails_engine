@@ -63,7 +63,7 @@ describe 'Merchants API' do
   end
 
   it 'can get all items for a merchant' do
-    get "/api/v1/merchants/#{@merchant1.id}/items"
+    get api_v1_merchant_items_path(@merchant1)
 
     merchant_items = JSON.parse(response.body)
 
