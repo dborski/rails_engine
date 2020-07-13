@@ -68,4 +68,14 @@ describe 'Items API' do
     expect(response).to be_successful
     expect(Item.count).to eq(4)
   end
+
+  it 'can get merchant for an item' do
+    get "/api/v1/items/#{@item1.id}/merchant"
+
+    item_merchant = JSON.parse(response.body)
+
+    expect(response).to be_successful
+    expect(item_merchant['data']['attributes']['id']).to eq(@merchant1.id)
+    expect(item_merchant['data']['attributes']['name']).to eq(@merchant1.name)
+  end
 end
