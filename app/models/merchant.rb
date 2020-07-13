@@ -23,13 +23,13 @@ class Merchant < ApplicationRecord
 
   scope :with_created_at, proc { |created_at| 
     if created_at.present?
-      where("to_char(created_at,'yyyy-mm-dd-HH-MI-SS') ILIKE ?", "%#{created_at}%")
+      where("to_char(created_at,'yyyy-mon-dd-HH-MI-SS') ILIKE ?", "%#{created_at}%")
     end 
   }
 
   scope :with_updated_at, proc { |updated_at| 
     if updated_at.present?
-      where("to_char(updated_at,'yyyy-mm-dd-HH-MI-SS') ILIKE ?", "%#{updated_at}%")
+      where("to_char(updated_at,'yyyy-mon-dd-HH-MI-SS') ILIKE ?", "%#{updated_at}%")
     end 
   }
 end
