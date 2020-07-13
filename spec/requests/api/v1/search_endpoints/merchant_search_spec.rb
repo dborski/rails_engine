@@ -17,7 +17,25 @@ describe 'Merchants API' do
   end
 
   it 'can find a merchant that has a fragment in created_at' do
-    get "/api/v1/merchants/find?created_at=19"
+    get "/api/v1/merchants/find?created_at=2019"
+
+    merchant = JSON.parse(response.body)
+
+    expect(merchant['data']['attributes']['id']).to eq(@merchant2.id)
+    expect(merchant['data']['attributes']['name']).to eq(@merchant2.name)
+  end
+
+  it 'can find a merchant that has a fragment in updated_at' do
+    get "/api/v1/merchants/find?updated_at=19"
+
+    merchant = JSON.parse(response.body)
+
+    expect(merchant['data']['attributes']['id']).to eq(@merchant2.id)
+    expect(merchant['data']['attributes']['name']).to eq(@merchant2.name)
+  end
+  
+  it 'can find a merchant that has a fragment in both name and created_at' do
+    get "/api/v1/merchants/find?name=pu&updated_at=19"
 
     merchant = JSON.parse(response.body)
 
@@ -27,6 +45,15 @@ describe 'Merchants API' do
 
   it 'can find a merchant that has a fragment in both name and updated_at' do
     get "/api/v1/merchants/find?name=ar&updated_at=18"
+
+    merchant = JSON.parse(response.body)
+
+    expect(merchant['data']['attributes']['id']).to eq(@merchant3.id)
+    expect(merchant['data']['attributes']['name']).to eq(@merchant3.name)
+  end
+
+  it 'can find a merchant that has a fragment in both created_at and updated_at' do
+    get "/api/v1/merchants/find?created_at=dec&updated_at=18"
 
     merchant = JSON.parse(response.body)
 
