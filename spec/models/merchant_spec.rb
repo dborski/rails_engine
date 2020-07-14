@@ -33,9 +33,9 @@ RSpec.describe Merchant, type: :model do
       @invoice_item1 = create(:invoice_item, item: @item1, invoice: @invoice1, quantity: 1, unit_price: 10)
       @invoice_item2 = create(:invoice_item, item: @item2, invoice: @invoice1, quantity: 1, unit_price: 20.55)
       @invoice_item3 = create(:invoice_item, item: @item3, invoice: @invoice2, quantity: 1, unit_price: 99.99)
-      @invoice_item4 = create(:invoice_item, item: @item4, invoice: @invoice3, quantity: 1, unit_price: 5.50)
+      @invoice_item4 = create(:invoice_item, item: @item4, invoice: @invoice3, quantity: 2, unit_price: 5.50)
       @invoice_item4 = create(:invoice_item, item: @item5, invoice: @invoice4, quantity: 1, unit_price: 15.30)
-      @invoice_item4 = create(:invoice_item, item: @item5, invoice: @invoice5, quantity: 1, unit_price: 16.30)
+      @invoice_item4 = create(:invoice_item, item: @item5, invoice: @invoice5, quantity: 2, unit_price: 16.30)
 
       @transaction1 = create(:transaction, invoice: @invoice1)
       @transaction2 = create(:transaction, invoice: @invoice2)
@@ -46,6 +46,10 @@ RSpec.describe Merchant, type: :model do
 
     it 'can find merchants by revenue' do
       expect(Merchant.merchants_by_revenue(2, 'desc')).to eq([@merchant1, @merchant3])
+    end 
+
+    it 'can find merchants number of items sold' do
+      expect(Merchant.merchants_by_items_sold(2, 'desc')).to eq([@merchant1, @merchant2])
     end 
   end
 end
