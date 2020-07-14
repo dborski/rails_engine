@@ -2,8 +2,6 @@ class Merchant < ApplicationRecord
   has_many :items, dependent: :destroy
   has_many :invoices, dependent: :destroy
   has_many :customers, through: :invoices
-  has_many :invoice_items, through: :invoices
-  has_many :transactions, through: :invoices
 
   validates_presence_of :name
 
@@ -31,8 +29,8 @@ class Merchant < ApplicationRecord
 
   def self.merchants_by_revenue(limit = 5, order = 'desc')
     select("merchants.*, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue")
-      .joins(:invoices, :invoice_items, :transactions)
-      .merge(Invoice.paid_and_successful)
+      .joins(invoices: [:invoice_items, :transactions])
+      .where(transactions: { result: 'success'} )
       .group(:id)
       .order("revenue #{order}")
       .limit(limit)
