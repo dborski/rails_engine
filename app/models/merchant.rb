@@ -14,6 +14,15 @@ class Merchant < ApplicationRecord
       .with_created_at(created_at)
       .with_updated_at(updated_at)
   end
+  
+  def self.merchants_by_revenue(limit = 5, order = 'desc')
+    select("merchants.*, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue")
+      .joins(invoices: [:invoice_items, :transactions])
+      .merge(Transaction.successful)
+      .group(:id)
+      .order("revenue #{order}")
+      .limit(limit)
+  end 
 
   scope :with_name, proc { |name|
     where('name ILIKE ?', "%#{name}%") if name
@@ -26,13 +35,4 @@ class Merchant < ApplicationRecord
   scope :with_updated_at, proc { |updated_at|
     where("to_char(updated_at,'yyyy-mon-dd-HH-MI-SS') ILIKE ?", "%#{updated_at}%") if updated_at
   }
-
-  def self.merchants_by_revenue(limit = 5, order = 'desc')
-    select("merchants.*, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue")
-      .joins(invoices: [:invoice_items, :transactions])
-      .merge(Transaction.successful)
-      .group(:id)
-      .order("revenue #{order}")
-      .limit(limit)
-  end 
 end
