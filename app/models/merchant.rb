@@ -24,6 +24,15 @@ class Merchant < ApplicationRecord
       .limit(limit)
   end 
 
+  def self.merchants_by_items_sold(limit = 5, order = 'desc')
+    select("merchants.*, SUM(invoice_items.quantity) AS items_sold")
+      .joins(invoices: [:invoice_items, :transactions])
+      .merge(Transaction.successful)
+      .group(:id)
+      .order("items_sold #{order}")
+      .limit(limit)
+  end 
+
   scope :with_name, proc { |name|
     where('name ILIKE ?', "%#{name}%") if name
   }
