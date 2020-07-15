@@ -58,15 +58,8 @@ describe 'Business Intelligence API' do
   it 'can find total revenue among all merchants between a given date range' do
     get '/api/v1/revenue?start=2012-03-09&end=2012-03-24'
     
-    merchants = JSON.parse(response.body)
+    merchants_revenue_by_date = JSON.parse(response.body)
 
-    binding.pry
-    
-    found_merchants = merchants['data']
-    
-    expect(Merchant.revenue_by_date_range('2012-03-24','2012-03-28')).to eq(143.59)
-    expect(Merchant.revenue_by_date_range('2012-03-09','2012-03-28')).to eq(174.14)
-    expect(found_merchants.first['attributes']['id']).to eq(@merchant1.id)
-    expect(found_merchants.last['attributes']['id']).to eq(@merchant2.id)
+    expect(merchants_revenue_by_date['data']['attributes']['revenue']).to eq(30.55)
   end
 end
