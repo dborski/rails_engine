@@ -7,4 +7,12 @@ class Invoice < ApplicationRecord
   has_many :transactions, dependent: :destroy
 
   validates_presence_of :status
+
+  def self.total_revenue
+      select("SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue")
+      .joins(:invoice_items, :transactions)
+      .merge(Transaction.successful)
+      .group(:id)
+      .sum(&:revenue)
+  end 
 end
