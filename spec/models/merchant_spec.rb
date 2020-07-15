@@ -59,6 +59,8 @@ RSpec.describe Merchant, type: :model do
 
     it 'can find total revenue for a merchant' do
       expect(@merchant1.invoices.total_revenue).to eq(130.54)
+      expect(@merchant2.invoices.total_revenue).to eq(11.0)
+      expect(@merchant3.invoices.total_revenue).to eq(32.6)
     end 
   end
 end
