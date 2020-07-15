@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
       resources :merchants, except: [:edit, :new] do
         resources :items, only: [:index], controller: 'merchant_items'
+        get '/revenue', to: 'revenue#show'
       end
 
       resources :items, except: [:edit, :new] do
