@@ -62,4 +62,12 @@ describe 'Business Intelligence API' do
 
     expect(merchants_revenue_by_date['data']['attributes']['revenue']).to eq(30.55)
   end
+
+  it 'can find total revenue for a single merchant' do
+    get "/api/v1/merchants/#{@merchant1.id}/revenue"
+    
+    total_revenue_by_merchant = JSON.parse(response.body)
+
+    expect(total_revenue_by_merchant['data']['attributes']['revenue']).to eq(130.54)
+  end
 end
