@@ -1,6 +1,6 @@
-class Api::V1::Merchants::MostRevenueController < ActionController::API
+class Api::V1::Merchants::MostRevenueController < ApiBaseController
   def index
     merchants = Merchant.merchants_by_revenue(params[:quantity])
-    render json: MerchantSerializer.new(merchants)
+    render_merchants(merchants)
   end
 end
