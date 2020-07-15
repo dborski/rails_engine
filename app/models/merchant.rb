@@ -18,7 +18,7 @@ class Merchant < ApplicationRecord
   def self.revenue_by_date_range(start_date, end_date)
     select("SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue")
       .joins(invoices: [:invoice_items, :transactions])
-      .where('invoices.created_at BETWEEN ? AND ?', "#{start_date.to_date.beginning_of_day}", "#{end_date.to_date.beginning_of_day}")
+      .where('invoices.created_at BETWEEN ? AND ?', "#{start_date.to_date.beginning_of_day}", "#{end_date.to_date.end_of_day}")
       .merge(Transaction.successful)
       .group(:id)
       .sum(&:revenue)
@@ -31,17 +31,7 @@ class Merchant < ApplicationRecord
       .group(:id)
       .order("revenue #{order}")
       .limit(limit)
-  end 
-
-    # self.find_by_sql("SELECT merchants.*, 
-    #                   SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue, SUM(revenue) OVER (PARTITION BY name) 
-    #                   FROM merchants
-    #                   INNER JOIN invoices ON invoices.merchant_id = merchants.id 
-    #                   INNER JOIN invoice_items ON invoice_items.invoice_id = invoices.id 
-    #                   INNER JOIN transactions ON transactions.invoice_id = invoices.id")
-    #                   where
-
-  
+  end
 
   def self.merchants_by_items_sold(limit = 5, order = 'desc')
     select("merchants.*, SUM(invoice_items.quantity) AS items_sold")
