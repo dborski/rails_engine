@@ -1,11 +1,11 @@
-class Api::V1::Merchants::SearchController < ActionController::API
+class Api::V1::Merchants::SearchController < ApiBaseController
   def index
     merchants = Merchant.find_all(params[:name], params[:created_at], params[:updated_at])
-    render json: MerchantSerializer.new(merchants)
+    render_merchants(merchants)
   end
 
   def show
     merchant = Merchant.find_one(params[:name], params[:created_at], params[:updated_at])
-    render json: MerchantSerializer.new(merchant)
+    render_merchants(merchant)
   end
 end
