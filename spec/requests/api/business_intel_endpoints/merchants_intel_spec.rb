@@ -12,12 +12,12 @@ describe 'Business Intelligence API' do
     @item4 = create(:item, merchant: @merchant2, unit_price: 5.50)
     @item5 = create(:item, merchant: @merchant3, unit_price: 15.30)
 
-    @invoice1 = create(:invoice, merchant: @merchant1)
-    @invoice2 = create(:invoice, merchant: @merchant1)
-    @invoice3 = create(:invoice, merchant: @merchant2)
-    @invoice4 = create(:invoice, merchant: @merchant2)
-    @invoice5 = create(:invoice, merchant: @merchant3)
-    @invoice6 = create(:invoice, merchant: @merchant3, status: 'on hold')
+    @invoice1 = create(:invoice, merchant: @merchant1, created_at: '2012-03-20 14:54:09 UTC')
+    @invoice2 = create(:invoice, merchant: @merchant1, created_at: '2012-03-27 14:54:09 UTC')
+    @invoice3 = create(:invoice, merchant: @merchant2, created_at: '2012-03-27 14:54:09 UTC')
+    @invoice4 = create(:invoice, merchant: @merchant2, created_at: '2012-03-24 14:54:09 UTC')
+    @invoice5 = create(:invoice, merchant: @merchant3, created_at: '2012-03-27 14:54:09 UTC') 
+    @invoice6 = create(:invoice, merchant: @merchant3, created_at: '2012-03-29 14:54:09 UTC')
     
     @invoice_item1 = create(:invoice_item, item: @item1, invoice: @invoice1, quantity: 1, unit_price: 10)
     @invoice_item2 = create(:invoice_item, item: @item2, invoice: @invoice1, quantity: 1, unit_price: 20.55)
@@ -53,5 +53,21 @@ describe 'Business Intelligence API' do
 
     expect(found_merchants.first['attributes']['id']).to eq(@merchant1.id)
     expect(found_merchants.last['attributes']['id']).to eq(@merchant2.id)
+  end
+
+  it 'can find total revenue among all merchants between a given date range' do
+    get '/api/v1/revenue?start=2012-03-09&end=2012-03-24'
+    
+    merchants_revenue_by_date = JSON.parse(response.body)
+
+    expect(merchants_revenue_by_date['data']['attributes']['revenue']).to eq(30.55)
+  end
+
+  it 'can find total revenue for a single merchant' do
+    get "/api/v1/merchants/#{@merchant1.id}/revenue"
+    
+    total_revenue_by_merchant = JSON.parse(response.body)
+
+    expect(total_revenue_by_merchant['data']['attributes']['revenue']).to eq(130.54)
   end
 end
