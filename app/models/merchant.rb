@@ -32,15 +32,20 @@ class Merchant < ApplicationRecord
    
   ###single_find and multi_find search scopes
 
-  def self.find_one(name = nil, created_at = nil, updated_at = nil)
-    self.find_all(name, created_at, updated_at).first
+  def self.find_one(id = nil, name = nil, created_at = nil, updated_at = nil)
+    self.find_all(id, name, created_at, updated_at).first
   end
   
-  def self.find_all(name = nil, created_at = nil, updated_at = nil)
-    self.with_name(name)
+  def self.find_all(id = nil, name = nil, created_at = nil, updated_at = nil)
+    self.with_id(id) 
+        .with_name(name)
         .with_created_at(created_at)
         .with_updated_at(updated_at)
   end
+
+  scope :with_id, proc { |id|
+    where("to_char(id, '999999') ILIKE ?", "%#{id}%") if id
+  }
 
   scope :with_name, proc { |name|
     where('name ILIKE ?', "%#{name}%") if name

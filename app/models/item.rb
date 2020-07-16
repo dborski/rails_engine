@@ -9,18 +9,23 @@ class Item < ApplicationRecord
 
   ###s single_find and multi_find search scopes
 
-  def self.find_one(name = nil, description = nil, unit_price = nil, merchant_id = nil, created_at = nil, updated_at = nil)
-    find_all(name, description, unit_price, merchant_id, created_at, updated_at).first
+  def self.find_one(id = nil, name = nil, description = nil, unit_price = nil, merchant_id = nil, created_at = nil, updated_at = nil)
+    self.find_all(id, name, description, unit_price, merchant_id, created_at, updated_at).first
   end
 
-  def self.find_all(name = nil, description = nil, unit_price = nil, merchant_id = nil, created_at = nil, updated_at = nil)
-    with_name(name)
-      .with_description(description)
-      .with_unit_price(unit_price)
-      .with_merchant_id(merchant_id)
-      .with_created_at(created_at)
-      .with_updated_at(updated_at)
+  def self.find_all(id = nil, name = nil, description = nil, unit_price = nil, merchant_id = nil, created_at = nil, updated_at = nil)
+    self.with_id(id)
+        .with_name(name)
+        .with_description(description)
+        .with_unit_price(unit_price)
+        .with_merchant_id(merchant_id)
+        .with_created_at(created_at)
+        .with_updated_at(updated_at)
   end
+
+  scope :with_id, proc { |id|
+    where("to_char(id, '999999') ILIKE ?", "%#{id}%") if id
+  }
 
   scope :with_name, proc { |name|
     where('name ILIKE ?', "%#{name}%") if name
