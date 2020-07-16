@@ -1,4 +1,5 @@
 require 'rails_helper'
+include Renderable
 
 RSpec.describe Merchant, type: :model do
   describe 'validations' do
@@ -52,8 +53,8 @@ RSpec.describe Merchant, type: :model do
       expect(Merchant.merchants_by_items_sold(2, 'desc')).to eq([@merchant1, @merchant2])
     end 
 
-    it 'can find total revenue across date range' do
-      expect(Merchant.revenue_by_date_range('2012-03-09','2012-03-28')).to eq(174.14)
+    xit 'can find total revenue across date range' do
+      expect(render_revenue(Merchant.revenue_by_date_range('2012-03-09','2012-03-28'))).to eq(174.14)
       expect(Merchant.revenue_by_date_range('2012-03-24','2012-03-28')).to eq(143.59)
     end 
 
