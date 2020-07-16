@@ -8,11 +8,11 @@ class Merchant < ApplicationRecord
   def self.find_one(name = nil, created_at = nil, updated_at = nil)
     find_all(name, created_at, updated_at).first
   end
-
+  
   def self.find_all(name = nil, created_at = nil, updated_at = nil)
     with_name(name)
-      .with_created_at(created_at)
-      .with_updated_at(updated_at)
+    .with_created_at(created_at)
+    .with_updated_at(updated_at)
   end
   
   def self.revenue_by_date_range(start_date, end_date)
@@ -20,8 +20,6 @@ class Merchant < ApplicationRecord
       .joins(invoices: [:invoice_items, :transactions])
       .where('invoices.created_at BETWEEN ? AND ?', "#{start_date.to_date.beginning_of_day}", "#{end_date.to_date.end_of_day}")
       .merge(Transaction.successful)
-      .group(:id)
-      .sum(&:revenue)
   end 
   
   def self.merchants_by_revenue(limit = 500000, order = 'desc')
@@ -31,7 +29,7 @@ class Merchant < ApplicationRecord
       .group(:id)
       .order("revenue #{order}")
       .limit(limit)
-  end
+  end 
 
   def self.merchants_by_items_sold(limit = 5, order = 'desc')
     select("merchants.*, SUM(invoice_items.quantity) AS items_sold")
