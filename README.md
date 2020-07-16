@@ -87,6 +87,7 @@ All find endpoints can accept multiple query parameters to refine results.
 Supported Parameters:
 parameter | description | value type/format
 -- | -- | --
+id | search based on the primary key | integer
 name | search based on the name attribute | string (case-insensitive)
 description | search based on the description attribute | string (case-insensitive)
 merchant_id | search based on the merchant_id foreign key | integer
@@ -107,6 +108,7 @@ updated_at | search based on updated_at timestamp | YYYY-MM-DD HH:MM:SS
 Supported Parameters:
 parameter | description | value type/format
 -- | -- | --
+id | search based on the primary key | integer
 name | search based on the name attribute | string (case-insensitive)
 created_at | search based on created_at timestamp | YYYY-MM-DD HH:MM:SS
 updated_at | search based on updated_at timestamp | YYYY-MM-DD HH:MM:SS
