@@ -9,10 +9,8 @@ class Invoice < ApplicationRecord
   validates_presence_of :status
 
   def self.total_revenue
-      select("SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue")
-      .joins(:invoice_items, :transactions)
-      .merge(Transaction.successful)
-      .group(:id)
-      .sum(&:revenue)
+    self.select("SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue")
+        .joins(:invoice_items, :transactions)
+        .merge(Transaction.successful)
   end 
 end
