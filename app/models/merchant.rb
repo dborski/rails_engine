@@ -23,22 +23,24 @@ class Merchant < ApplicationRecord
   end 
   
   def self.merchants_by_revenue(limit = 500000, order = 'desc')
-    select("merchants.*, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue")
-      .joins(invoices: [:invoice_items, :transactions])
-      .merge(Transaction.successful)
-      .group(:id)
+    select("merchants.*, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue").merge(revenue_helper(limit, order))
       .order("revenue #{order}")
-      .limit(limit)
+
   end 
 
   def self.merchants_by_items_sold(limit = 5, order = 'desc')
-    select("merchants.*, SUM(invoice_items.quantity) AS items_sold")
-      .joins(invoices: [:invoice_items, :transactions])
-      .merge(Transaction.successful)
-      .group(:id)
+    select("merchants.*, SUM(invoice_items.quantity) AS items_sold").merge(revenue_helper(limit, order))
       .order("items_sold #{order}")
-      .limit(limit)
-  end 
+  end
+
+  def self.revenue_helper(limit = 5, order = 'desc')
+      self.joins(invoices: [:invoice_items, :transactions])
+          .merge(Transaction.successful)
+          .group(:id)
+          .limit(limit)
+  end
+   
+  ###single_find and multi_find search scopes
 
   scope :with_name, proc { |name|
     where('name ILIKE ?', "%#{name}%") if name
