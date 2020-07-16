@@ -8,8 +8,7 @@ class Api::V1::ItemsController < ApiBaseController
   end
 
   def create
-    item = Item.create(item_params)
-    render_items(item)
+    render_items(Item.create(item_params))
   end
 
   def update

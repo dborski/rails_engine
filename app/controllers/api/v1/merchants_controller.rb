@@ -8,8 +8,7 @@ class Api::V1::MerchantsController < ApiBaseController
   end
 
   def create
-    merchant = Merchant.create(merchant_params)
-    render_merchants(merchant)
+    render_merchants(Merchant.create(merchant_params))
   end
 
   def update

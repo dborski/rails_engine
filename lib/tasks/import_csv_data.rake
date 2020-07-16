@@ -14,7 +14,7 @@ namespace :import_csv_data do
       'db/data/transactions.csv' => Transaction
     }
 
-    puts 'Preparing to delete exisiting data'
+    puts 'Now deleting all database records'
     file_objects.values.each(&:destroy_all)
     puts 'Database is now reset'
     puts 'Loading new data'
@@ -26,7 +26,7 @@ namespace :import_csv_data do
           object.create!(row)
         end
       end
-      puts "total time to import #{object}s: #{total_time} seconds"
+      puts "Total time to import #{object}s: #{total_time.round(2)} seconds"
     end
 
     puts 'import_csv_data rake task complete'

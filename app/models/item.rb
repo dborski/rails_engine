@@ -7,6 +7,8 @@ class Item < ApplicationRecord
                         :description,
                         :unit_price
 
+  ###s single_find and multi_find search scopes
+
   def self.find_one(name = nil, description = nil, unit_price = nil, merchant_id = nil, created_at = nil, updated_at = nil)
     find_all(name, description, unit_price, merchant_id, created_at, updated_at).first
   end
