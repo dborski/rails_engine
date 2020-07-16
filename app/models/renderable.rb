@@ -1,5 +1,14 @@
 module Renderable
   def render_revenue(revenue)
+    revenue_info = revenue.to_json
+    parsed = JSON.parse(revenue_info)
+
+    if parsed.class == Float
+      revenue = parsed
+    else 
+      revenue =  parsed.first['revenue']
+    end 
+
     serialized = {
         "data": {
           "id": nil,
