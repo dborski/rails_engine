@@ -72,6 +72,8 @@ delete /merchant
 
 ### Find Endpoints
 
+All find endpoints can accept multiple query parameters to refine results.
+
 ### Items
 
 - Find Single Item By Query Parameter
@@ -92,7 +94,6 @@ unit_price | search based on the unit_price attribute | float with 2 decimal pla
 created_at | search based on created_at timestamp | YYYY-MM-DD HH:MM:SS
 updated_at | search based on updated_at timestamp | YYYY-MM-DD HH:MM:SS
 
-
 ### Merchants
 
 - Find Single Merchant By Query Parameter
@@ -109,6 +110,7 @@ parameter | description | value type/format
 name | search based on the name attribute | string (case-insensitive)
 created_at | search based on created_at timestamp | YYYY-MM-DD HH:MM:SS
 updated_at | search based on updated_at timestamp | YYYY-MM-DD HH:MM:SS
+
 ### Business Intelligence Endpoints
 
 - Top `x` Merchants Ranked by Total Revenue
