@@ -35,8 +35,6 @@ describe 'Business Intelligence API' do
     @transaction3 = create(:transaction, invoice: @invoice3)
     @transaction4 = create(:transaction, invoice: @invoice4, result: 'failed')
     @transaction5 = create(:transaction, invoice: @invoice5)
-
-    binding.pry
   end
 
   it 'can find 2 merchants with most revenue' do
@@ -78,7 +76,7 @@ describe 'Business Intelligence API' do
   end
 
   it 'can find top 2 favorite customers for a specific merchant' do
-    get "/api/v1/merchants/#{@merchant1.id}/favorite_customer?quantity=2"
+    get "/api/v1/merchants/#{@merchant1.id}/favorite_customers?quantity=2"
     
     favorite_customers = JSON.parse(response.body)
 
