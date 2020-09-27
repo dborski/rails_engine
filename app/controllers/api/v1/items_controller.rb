@@ -17,7 +17,7 @@ class Api::V1::ItemsController < ApiBaseController
 
   def destroy
     item = Item.find(params[:id])
-    Item.delete(params[:id])
+    Item.destroy(params[:id])
     render_items(item)
   end
 
