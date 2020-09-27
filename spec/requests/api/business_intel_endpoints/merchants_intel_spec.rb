@@ -6,18 +6,22 @@ describe 'Business Intelligence API' do
     @merchant2 = create(:merchant)
     @merchant3 = create(:merchant)
 
+    @customer1 = create(:customer)
+    @customer2 = create(:customer)
+    @customer3 = create(:customer)
+    
     @item1 = create(:item, merchant: @merchant1, unit_price: 10)
     @item2 = create(:item, merchant: @merchant1, unit_price: 20.55)
     @item3 = create(:item, merchant: @merchant2, unit_price: 99.99)
     @item4 = create(:item, merchant: @merchant2, unit_price: 5.50)
     @item5 = create(:item, merchant: @merchant3, unit_price: 15.30)
 
-    @invoice1 = create(:invoice, merchant: @merchant1, created_at: '2012-03-20 14:54:09 UTC')
-    @invoice2 = create(:invoice, merchant: @merchant1, created_at: '2012-03-27 14:54:09 UTC')
-    @invoice3 = create(:invoice, merchant: @merchant2, created_at: '2012-03-27 14:54:09 UTC')
-    @invoice4 = create(:invoice, merchant: @merchant2, created_at: '2012-03-24 14:54:09 UTC')
-    @invoice5 = create(:invoice, merchant: @merchant3, created_at: '2012-03-27 14:54:09 UTC') 
-    @invoice6 = create(:invoice, merchant: @merchant3, created_at: '2012-03-29 14:54:09 UTC')
+    @invoice1 = create(:invoice, merchant: @merchant1, customer: @customer2, created_at: '2012-03-20 14:54:09 UTC')
+    @invoice2 = create(:invoice, merchant: @merchant1, customer: @customer2, created_at: '2012-03-27 14:54:09 UTC')
+    @invoice3 = create(:invoice, merchant: @merchant2, customer: @customer2, created_at: '2012-03-27 14:54:09 UTC')
+    @invoice4 = create(:invoice, merchant: @merchant2, customer: @customer1, created_at: '2012-03-24 14:54:09 UTC')
+    @invoice5 = create(:invoice, merchant: @merchant3, customer: @customer1, created_at: '2012-03-27 14:54:09 UTC') 
+    @invoice6 = create(:invoice, merchant: @merchant3, customer: @customer3, created_at: '2012-03-29 14:54:09 UTC')
     
     @invoice_item1 = create(:invoice_item, item: @item1, invoice: @invoice1, quantity: 1, unit_price: 10)
     @invoice_item2 = create(:invoice_item, item: @item2, invoice: @invoice1, quantity: 1, unit_price: 20.55)
@@ -31,6 +35,8 @@ describe 'Business Intelligence API' do
     @transaction3 = create(:transaction, invoice: @invoice3)
     @transaction4 = create(:transaction, invoice: @invoice4, result: 'failed')
     @transaction5 = create(:transaction, invoice: @invoice5)
+
+    binding.pry
   end
 
   it 'can find 2 merchants with most revenue' do
@@ -69,5 +75,14 @@ describe 'Business Intelligence API' do
     total_revenue_by_merchant = JSON.parse(response.body)
 
     expect(total_revenue_by_merchant['data']['attributes']['revenue']).to eq(130.54)
+  end
+
+  it 'can find top 2 favorite customers for a specific merchant' do
+    get "/api/v1/merchants/#{@merchant1.id}/favorite_customer?quantity=2"
+    
+    favorite_customers = JSON.parse(response.body)
+
+    expect(favorite_customers[0]['data']['attributes']['id']).to eq(@customer2.id)
+    expect(favorite_customers[1]['data']['attributes']['id']).to eq(@customer1.id)
   end
 end
