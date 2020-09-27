@@ -27,4 +27,8 @@ module Renderable
   def render_items(items)
     render json: ItemSerializer.new(items)
   end
+
+  def render_customers(customers)
+    render json: CustomerSerializer.new(customers)
+  end
 end
