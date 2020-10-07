@@ -123,6 +123,10 @@ updated_at | search based on updated_at timestamp | YYYY-MM-DD HH:MM:SS
 ```
 /merchants/revenue?start=x&end=x
 ```
+- Top `x` Favorite Customers for a Merchant by Total Spent
+```
+/merchants/:merchant_id/favorite_customers?quantity=x
+```
 - Top `x` Merchants with Most Items Sold
 ```
 /merchants/most_items?quantity=x
